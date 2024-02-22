@@ -1,0 +1,341 @@
+Using pre-set license
+Built from '2022.3/staging' branch; Version is '2022.3.9f1 (ea401c316338) revision 15351836'; Using compiler version '192829333'; Build Type 'Release'
+OS: 'Windows 11  (10.0.22631) 64bit Core' Language: 'en' Physical Memory: 5996 MB
+BatchMode: 1, IsHumanControllingUs: 0, StartBugReporterOnCrash: 0, Is64bit: 1, IsPro: 1
+
+COMMAND LINE ARGUMENTS:
+C:\Program Files\Unity 2022.3.9f1\Editor\Unity.exe
+-adb2
+-batchMode
+-noUpm
+-name
+AssetImportWorker2
+-projectPath
+C:/Users/padra/source/repos/TemporalThief
+-logFile
+Logs/AssetImportWorker2.log
+-srvPort
+55754
+Successfully changed project path to: C:/Users/padra/source/repos/TemporalThief
+C:/Users/padra/source/repos/TemporalThief
+[UnityMemory] Configuration Parameters - Can be set up in boot.config
+    "memorysetup-bucket-allocator-granularity=16"
+    "memorysetup-bucket-allocator-bucket-count=8"
+    "memorysetup-bucket-allocator-block-size=33554432"
+    "memorysetup-bucket-allocator-block-count=8"
+    "memorysetup-main-allocator-block-size=16777216"
+    "memorysetup-thread-allocator-block-size=16777216"
+    "memorysetup-gfx-main-allocator-block-size=16777216"
+    "memorysetup-gfx-thread-allocator-block-size=16777216"
+    "memorysetup-cache-allocator-block-size=4194304"
+    "memorysetup-typetree-allocator-block-size=2097152"
+    "memorysetup-profiler-bucket-allocator-granularity=16"
+    "memorysetup-profiler-bucket-allocator-bucket-count=8"
+    "memorysetup-profiler-bucket-allocator-block-size=33554432"
+    "memorysetup-profiler-bucket-allocator-block-count=8"
+    "memorysetup-profiler-allocator-block-size=16777216"
+    "memorysetup-profiler-editor-allocator-block-size=1048576"
+    "memorysetup-temp-allocator-size-main=16777216"
+    "memorysetup-job-temp-allocator-block-size=2097152"
+    "memorysetup-job-temp-allocator-block-size-background=1048576"
+    "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
+    "memorysetup-allocator-temp-initial-block-size-main=262144"
+    "memorysetup-allocator-temp-initial-block-size-worker=262144"
+    "memorysetup-temp-allocator-size-background-worker=32768"
+    "memorysetup-temp-allocator-size-job-worker=262144"
+    "memorysetup-temp-allocator-size-preload-manager=33554432"
+    "memorysetup-temp-allocator-size-nav-mesh-worker=65536"
+    "memorysetup-temp-allocator-size-audio-worker=65536"
+    "memorysetup-temp-allocator-size-cloud-worker=32768"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gfx=262144"
+Player connection [26380] Host "[IP] 192.168.56.1 [Port] 0 [Flags] 2 [Guid] 1603715899 [EditorId] 1603715899 [Version] 1048832 [Id] WindowsEditor(7,Podges_laptop) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined multi-casting on [225.0.0.222:54997]...
+
+Player connection [26380] Host "[IP] 192.168.56.1 [Port] 0 [Flags] 2 [Guid] 1603715899 [EditorId] 1603715899 [Version] 1048832 [Id] WindowsEditor(7,Podges_laptop) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined alternative multi-casting on [225.0.0.222:34997]...
+
+[Physics::Module] Initialized MultithreadedJobDispatcher with 15 workers.
+Refreshing native plugins compatible for Editor in 26.89 ms, found 3 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Initialize engine version: 2022.3.9f1 (ea401c316338)
+[Subsystems] Discovering subsystems at path C:/Program Files/Unity 2022.3.9f1/Editor/Data/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path C:/Users/padra/source/repos/TemporalThief/Assets
+GfxDevice: creating device client; threaded=0; jobified=0
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.1]
+    Renderer: NVIDIA GeForce RTX 3060 Laptop GPU (ID=0x2560)
+    Vendor:   NVIDIA
+    VRAM:     5996 MB
+    Driver:   31.0.15.5152
+Initialize mono
+Mono path[0] = 'C:/Program Files/Unity 2022.3.9f1/Editor/Data/Managed'
+Mono path[1] = 'C:/Program Files/Unity 2022.3.9f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
+Mono config path = 'C:/Program Files/Unity 2022.3.9f1/Editor/Data/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56532
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: C:/Program Files/Unity 2022.3.9f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+Registered in 0.007061 seconds.
+- Loaded All Assemblies, in  0.628 seconds
+Native extension for WindowsStandalone target not found
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  0.237 seconds
+Domain Reload Profiling: 862ms
+	BeginReloadAssembly (247ms)
+		ExecutionOrderSort (0ms)
+		DisableScriptedObjects (0ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (0ms)
+		CreateAndSetChildDomain (1ms)
+	RebuildCommonClasses (54ms)
+	RebuildNativeTypeToScriptingClass (12ms)
+	initialDomainReloadingComplete (81ms)
+	LoadAllAssembliesAndSetupDomain (230ms)
+		LoadAssemblies (242ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (226ms)
+			TypeCache.Refresh (224ms)
+				TypeCache.ScanAssembly (199ms)
+			ScanForSourceGeneratedMonoScriptInfo (1ms)
+			ResolveRequiredComponents (1ms)
+	FinalizeReload (238ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (173ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (10ms)
+			SetLoadedEditorAssemblies (8ms)
+			RefreshPlugins (0ms)
+			BeforeProcessingInitializeOnLoad (2ms)
+			ProcessInitializeOnLoadAttributes (112ms)
+			ProcessInitializeOnLoadMethodAttributes (40ms)
+			AfterProcessingInitializeOnLoad (0ms)
+			EditorAssembliesLoaded (0ms)
+		ExecutionOrderSort2 (0ms)
+		AwakeInstancesAfterBackupRestoration (0ms)
+========================================================================
+Worker process is ready to serve import requests
+Begin MonoManager ReloadAssembly
+- Loaded All Assemblies, in  0.766 seconds
+Refreshing native plugins compatible for Editor in 6.77 ms, found 3 plugins.
+Native extension for WindowsStandalone target not found
+Package Manager log level set to [2]
+[Package Manager] Server::EnsureServerProcessIsRunning -- launch failed, reason: Unity was launched with the -noUpm command-line argument
+[Package Manager] UpmClient::Send -- Unable to send message (not connected to UPM process).
+[Package Manager] Cannot connect to Unity Package Manager local server
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  0.529 seconds
+Domain Reload Profiling: 1291ms
+	BeginReloadAssembly (167ms)
+		ExecutionOrderSort (0ms)
+		DisableScriptedObjects (5ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (0ms)
+		CreateAndSetChildDomain (19ms)
+	RebuildCommonClasses (25ms)
+	RebuildNativeTypeToScriptingClass (8ms)
+	initialDomainReloadingComplete (43ms)
+	LoadAllAssembliesAndSetupDomain (519ms)
+		LoadAssemblies (474ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (158ms)
+			TypeCache.Refresh (136ms)
+				TypeCache.ScanAssembly (120ms)
+			ScanForSourceGeneratedMonoScriptInfo (17ms)
+			ResolveRequiredComponents (3ms)
+	FinalizeReload (530ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (398ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (5ms)
+			SetLoadedEditorAssemblies (2ms)
+			RefreshPlugins (0ms)
+			BeforeProcessingInitializeOnLoad (57ms)
+			ProcessInitializeOnLoadAttributes (310ms)
+			ProcessInitializeOnLoadMethodAttributes (15ms)
+			AfterProcessingInitializeOnLoad (8ms)
+			EditorAssembliesLoaded (0ms)
+		ExecutionOrderSort2 (0ms)
+		AwakeInstancesAfterBackupRestoration (6ms)
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.05 seconds
+Refreshing native plugins compatible for Editor in 6.82 ms, found 3 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 3506 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 38 unused Assets / (56.9 KB). Loaded Objects now: 3971.
+Memory consumption went from 127.1 MB to 127.1 MB.
+Total: 3.822400 ms (FindLiveObjects: 0.314500 ms CreateObjectMapping: 0.201400 ms MarkObjects: 3.156800 ms  DeleteObjects: 0.147700 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
+  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
+  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
+  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
+  custom:CustomObjectIndexerAttribute: 756ad292c208cfabdd7b50bc23989ffe -> 
+  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
+  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
+  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
+  custom:SearchIndexIgnoredProperties: e643bd26f0fe6173181afceb89e7c659 -> 
+  custom:AudioImporter_EditorPlatform: d09bf68614088b80899f8185d706f6e7 -> 
+  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+========================================================================
+Received Import Request.
+  Time since last request: 261763.498323 seconds.
+  path: Assets/My_Character/Concept_Character_1_2.fbm/Bra_Diffuse.jpg
+  artifactKey: Guid(c098b60f6e265764496e6fc2b671e1ac) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/My_Character/Concept_Character_1_2.fbm/Bra_Diffuse.jpg using Guid(c098b60f6e265764496e6fc2b671e1ac) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2954ac21b4288a822783c6f27c9415d9') in 0.127659 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time since last request: 0.000057 seconds.
+  path: Assets/My_Character/Concept_Character_1_2.fbm/Loose_Biker_Boots_Normal.jpg
+  artifactKey: Guid(f69e5b76dfce20649ad322048b000669) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/My_Character/Concept_Character_1_2.fbm/Loose_Biker_Boots_Normal.jpg using Guid(f69e5b76dfce20649ad322048b000669) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ff51285cf4e16b13b401a5129c4b8015') in 0.036298 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time since last request: 0.000039 seconds.
+  path: Assets/My_Character/Concept_Character_1_2.fbm/Std_Skin_Head_Diffuse.jpg
+  artifactKey: Guid(0c3ca1c116ec7db4798827ed0b028f07) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/My_Character/Concept_Character_1_2.fbm/Std_Skin_Head_Diffuse.jpg using Guid(0c3ca1c116ec7db4798827ed0b028f07) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'cff9878a8cc436c253856b639d51e11f') in 0.027881 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time since last request: 0.000042 seconds.
+  path: Assets/My_Character/Concept_Character_1_2.fbm/Std_Skin_Body_Diffuse.jpg
+  artifactKey: Guid(10b689c13ff2c984c998a17c80eb4aea) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/My_Character/Concept_Character_1_2.fbm/Std_Skin_Body_Diffuse.jpg using Guid(10b689c13ff2c984c998a17c80eb4aea) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0b2287b18b63ebe723d3d8f2cf58d8a9') in 0.030059 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time since last request: 0.000026 seconds.
+  path: Assets/My_Character/Concept_Character_1_2.fbm/Std_Skin_Arm_Diffuse.jpg
+  artifactKey: Guid(6f33fdd5aa4261f4c8fab22a96be0ea9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/My_Character/Concept_Character_1_2.fbm/Std_Skin_Arm_Diffuse.jpg using Guid(6f33fdd5aa4261f4c8fab22a96be0ea9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9fc8e2d9b37b3fd402c5fcd83f143161') in 0.034901 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time since last request: 0.000041 seconds.
+  path: Assets/My_Character/Concept_Character_1_2.fbm/Loose_Biker_Boots_Diffuse.jpg
+  artifactKey: Guid(2d97a525a04a23b42982de0bedf72f93) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/My_Character/Concept_Character_1_2.fbm/Loose_Biker_Boots_Diffuse.jpg using Guid(2d97a525a04a23b42982de0bedf72f93) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f7ececce15c4323b8cfa858e0281d7ed') in 0.032057 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time since last request: 0.000049 seconds.
+  path: Assets/My_Character/Concept_Character_1_2.fbm/Hair_Transparency_Diffuse.png
+  artifactKey: Guid(b544cd63f788db04781f2ea91690ab7a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/My_Character/Concept_Character_1_2.fbm/Hair_Transparency_Diffuse.png using Guid(b544cd63f788db04781f2ea91690ab7a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '483833eef74ef5ee4adaf8b95a0a8aae') in 0.031646 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time since last request: 0.000024 seconds.
+  path: Assets/My_Character/Concept_Character_1_2.fbm/Std_Eye_Occlusion_R_Opacity.png
+  artifactKey: Guid(783809d88013b8c4ca5d3b2989ece711) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/My_Character/Concept_Character_1_2.fbm/Std_Eye_Occlusion_R_Opacity.png using Guid(783809d88013b8c4ca5d3b2989ece711) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '63e98db32a2d947ca35e5b36a99bb5c3') in 0.017489 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time since last request: 0.000031 seconds.
+  path: Assets/My_Character/Concept_Character_1_2.fbm/Std_Nails_Diffuse.jpg
+  artifactKey: Guid(a5f7373287c2d2343bbc78f7158b6c21) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/My_Character/Concept_Character_1_2.fbm/Std_Nails_Diffuse.jpg using Guid(a5f7373287c2d2343bbc78f7158b6c21) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '74c8eb4b2fccb5c567df0dc8d6274cdd') in 0.031020 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time since last request: 0.000044 seconds.
+  path: Assets/My_Character/Concept_Character_1_2.fbm/Std_Skin_Head_Normal.png
+  artifactKey: Guid(570c8f10ab060d6429799fa542aa6c76) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/My_Character/Concept_Character_1_2.fbm/Std_Skin_Head_Normal.png using Guid(570c8f10ab060d6429799fa542aa6c76) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'afce5e9e18d2e22cad32567cb511f49d') in 0.030436 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time since last request: 0.000027 seconds.
+  path: Assets/My_Character/Concept_Character_1_2.fbm/Slim_trench_coat_Normal.jpg
+  artifactKey: Guid(28d6eab8e2e19194d838628deb5bddd8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/My_Character/Concept_Character_1_2.fbm/Slim_trench_coat_Normal.jpg using Guid(28d6eab8e2e19194d838628deb5bddd8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f1af5b29b22c1aa4eaf319511c8fa772') in 0.028577 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time since last request: 0.000064 seconds.
+  path: Assets/My_Character/Concept_Character_1_2.fbm/Female_Angled_Base_Transparency_Diffuse.png
+  artifactKey: Guid(ed7e2d77fbd1da4498ba1e048993a50c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/My_Character/Concept_Character_1_2.fbm/Female_Angled_Base_Transparency_Diffuse.png using Guid(ed7e2d77fbd1da4498ba1e048993a50c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f30a09033b63a0ce427cdef978d75224') in 0.031755 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time since last request: 0.000024 seconds.
+  path: Assets/My_Character/Concept_Character_1_2.fbm/Std_Lower_Teeth_Diffuse.jpg
+  artifactKey: Guid(ccbeeb148ef6a77419bcc6f27ce4526b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/My_Character/Concept_Character_1_2.fbm/Std_Lower_Teeth_Diffuse.jpg using Guid(ccbeeb148ef6a77419bcc6f27ce4526b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '39b1774f4418a5172b6e4ee3a8d8c329') in 0.028320 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time since last request: 0.000043 seconds.
+  path: Assets/My_Character/Concept_Character_1_2.fbm/Std_Eyelash_Diffuse.png
+  artifactKey: Guid(b2d3115070d0f1d428090d80521b8a1c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/My_Character/Concept_Character_1_2.fbm/Std_Eyelash_Diffuse.png using Guid(b2d3115070d0f1d428090d80521b8a1c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8d7ce0f6d81610405ba5de93766109ba') in 0.032004 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time since last request: 0.000024 seconds.
+  path: Assets/My_Character/Concept_Character_1_2.fbm/Std_Skin_Body_Normal.png
+  artifactKey: Guid(61247d9b638510248bf0b8dff6447efe) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/My_Character/Concept_Character_1_2.fbm/Std_Skin_Body_Normal.png using Guid(61247d9b638510248bf0b8dff6447efe) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ab4775d7b69b494cfb83305293821ec0') in 0.038332 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time since last request: 0.257361 seconds.
+  path: Assets/My_Character/Concept_Character_1_2.fbm/Std_Tearline_R_Diffuse.png
+  artifactKey: Guid(f0a1591dfc7ab054993b27d55b0046cf) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/My_Character/Concept_Character_1_2.fbm/Std_Tearline_R_Diffuse.png using Guid(f0a1591dfc7ab054993b27d55b0046cf) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5134fdf44c0df6f01bb5e754258fa771') in 0.016464 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time since last request: 0.000039 seconds.
+  path: Assets/My_Character/Concept_Character_1_2.fbm/Std_Tongue_Normal.jpg
+  artifactKey: Guid(5759e2905758e3e478d7f1a5a1b515d9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/My_Character/Concept_Character_1_2.fbm/Std_Tongue_Normal.jpg using Guid(5759e2905758e3e478d7f1a5a1b515d9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1149d64824cdb6980c0f9b5649bf7319') in 0.031726 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time since last request: 0.000040 seconds.
+  path: Assets/My_Character/Concept_Character_1_2.fbm/Std_Upper_Teeth_Normal.png
+  artifactKey: Guid(891edaed4db2f8448a22e05b94cbb161) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/My_Character/Concept_Character_1_2.fbm/Std_Upper_Teeth_Normal.png using Guid(891edaed4db2f8448a22e05b94cbb161) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c909f0078787661f305c29b7c5f4c8f5') in 0.022860 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time since last request: 0.000037 seconds.
+  path: Assets/My_Character/Concept_Character_1_2.fbm/Underwear_Bottoms_Normal.png
+  artifactKey: Guid(bb4f52e7297dfa34fa7446ee4206319a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/My_Character/Concept_Character_1_2.fbm/Underwear_Bottoms_Normal.png using Guid(bb4f52e7297dfa34fa7446ee4206319a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'aeab182bf2456a44512e379ffcd2973b') in 0.022868 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
+========================================================================
+Received Import Request.
+  Time since last request: 0.000030 seconds.
+  path: Assets/My_Character/Concept_Character_1_2.fbm/Underwear_Bottoms_Diffuse.png
+  artifactKey: Guid(08f12358202be2e4aaed7591fda6a530) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/My_Character/Concept_Character_1_2.fbm/Underwear_Bottoms_Diffuse.png using Guid(08f12358202be2e4aaed7591fda6a530) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8c0d6e6001b2bbbdc7e1ad26f48149f3') in 0.025628 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 2
