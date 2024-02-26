@@ -1102,3 +1102,4 @@ Received Prepare
 Begin MonoManager ReloadAssembly
 - Loaded All Assemblies, in  4.530 seconds
 Refreshing native plugins compatible for Editor in 9.83 ms, found 3 plugins.
+Native extension for WindowsStandalone target not found
