@@ -54,6 +54,8 @@ public class PlayerMovement : MonoBehaviour
         // Rotate the character left and right
         float mouseX = Input.GetAxis("Mouse X");
         transform.Rotate(Vector3.up * mouseX * rotationSpeed);
+
+
     }
 
     void Update()
@@ -61,6 +63,7 @@ public class PlayerMovement : MonoBehaviour
         // Rotate the camera up and down
         float mouseY = Input.GetAxis("Mouse Y");
         Camera.main.transform.Rotate(Vector3.left * mouseY * rotationSpeed);
+
     }
 
     void OnTriggerEnter(Collider other)
