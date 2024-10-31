@@ -6,15 +6,12 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float runningSpeed = 10f;
     [SerializeField] private float rotationSpeed = 2f;
     [SerializeField] private float jumpForce = 5f;     // Jumping force
-    [SerializeField] private float climbingSpeed = 3f; // Speed at which the player climbs
     [SerializeField] private LayerMask groundLayer;    // Layer for ground surfaces
 
     private Rigidbody rb;
     private Animator animator;
 
-    private bool isGrounded = true;        // Track if player is grounded
-    private bool canClimb = false;         // Track if player can climb
-    private bool isClimbing = false;       // Track if player is currently climbing
+    private bool isGrounded = true;    // Track if player is grounded
 
     void Start()
     {
@@ -33,14 +30,7 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (isClimbing)
-        {
-            HandleClimbing();
-        }
-        else
-        {
-            HandleMovement();
-        }
+        HandleMovement();
     }
 
     void Update()
@@ -57,9 +47,9 @@ public class PlayerMovement : MonoBehaviour
         float vertical = Input.GetAxis("Vertical");
 
         Vector3 movement = new Vector3(horizontal, 0f, vertical);
+
         float targetSpeed = Input.GetKey(KeyCode.LeftShift) ? runningSpeed : walkingSpeed;
 
-        // Apply movement
         movement *= targetSpeed * Time.fixedDeltaTime;
         rb.MovePosition(transform.position + transform.TransformDirection(movement));
 
@@ -68,95 +58,30 @@ public class PlayerMovement : MonoBehaviour
         // Update animator parameters
         animator.SetBool("Walking", speed > 0.1f && speed <= walkingSpeed);
         animator.SetBool("Running", speed > walkingSpeed);
-
-        if (speed > walkingSpeed)
-        {
-            canClimb = true; // Set climbing enabled when running
-            Debug.Log("Player is running and can climb.");
-        }
-        else
-        {
-            canClimb = false; // Disable climbing when not running
-        }
-    }
-
-    // Handle climbing movement
-    void HandleClimbing()
-    {
-        float vertical = Input.GetAxis("Vertical");  // Vertical input for climbing up/down
-        Vector3 climbMovement = new Vector3(0f, vertical * climbingSpeed * Time.fixedDeltaTime, 0f);
-
-        // Move the player upwards while climbing
-        rb.MovePosition(transform.position + climbMovement);
-        animator.SetBool("Climbing", true);
-
-        // Exit climbing if not pressing the forward key
-        if (!Input.GetKey(KeyCode.W) || !isClimbing)
-        {
-            ExitClimb();
-        }
     }
 
     // Handle jumping
     void HandleJump()
     {
+        // Jump only when grounded
         if (isGrounded && Input.GetKeyDown(KeyCode.Space))
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             isGrounded = false; // Set grounded to false until we land again
             animator.SetTrigger("Jump");
-            Debug.Log("Player jumped.");
+            Debug.Log("Player Jumped");
         }
     }
 
-    // Detect when the player is grounded
-    void OnCollisionEnter(Collision collision)
-    {
-        // Only set as grounded if the collision was with the ground
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            isGrounded = true;
-            Debug.Log("Player is grounded.");
-        }
-
-        // If colliding with a climbable wall while running, start climbing
-        if (collision.gameObject.CompareTag("Climbable") && canClimb)
-        {
-            EnterClimb();
-        }
-    }
-
-    // Check if the player is grounded using raycast
+    // Detect when the player is grounded using raycast
     void CheckIfGrounded()
     {
-        if (Physics.Raycast(transform.position, Vector3.down, 1.1f, groundLayer))
+        // Check if the player's vertical velocity is near zero, indicating they're grounded
+        isGrounded = Physics.Raycast(transform.position, Vector3.down, 1.1f, groundLayer);
+        if (isGrounded)
         {
-            isGrounded = true;
-            Debug.Log("Player detected as grounded by raycast.");
+            Debug.Log("Player is grounded.");
         }
-        else
-        {
-            isGrounded = false;
-        }
-    }
-
-    // Enter climbing state
-    void EnterClimb()
-    {
-        isClimbing = true;
-        rb.useGravity = false; // Disable gravity while climbing
-        rb.velocity = Vector3.zero; // Stop any existing movement
-        animator.SetBool("Climbing", true); // Set climbing animation
-        Debug.Log("Player started climbing.");
-    }
-
-    // Exit climbing state
-    void ExitClimb()
-    {
-        isClimbing = false;
-        rb.useGravity = true; // Re-enable gravity when done climbing
-        animator.SetBool("Climbing", false);
-        Debug.Log("Player exited climbing.");
     }
 
     // Handle mouse look (camera rotation)
@@ -170,26 +95,24 @@ public class PlayerMovement : MonoBehaviour
         Debug.Log("Player is looking around.");
     }
 
-    // Detect climbable surfaces using trigger collider
+    // Detect collisions for ground check
+    void OnCollisionEnter(Collision collision)
+    {
+        // Only set as grounded if the collision was with the ground
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = true;
+            Debug.Log("Player landed on ground.");
+        }
+    }
+
+    // Detect triggers
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Climbable"))
-        {
-            Debug.Log("Player is near a climbable surface.");
-        }
-
         if (other.CompareTag("Respawn"))
         {
             Debug.Log("Player entered respawn trigger.");
             RespawnPlayer(gameObject);
-        }
-    }
-
-    void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Climbable"))
-        {
-            Debug.Log("Player exited climbable area.");
         }
     }
 
@@ -200,7 +123,9 @@ public class PlayerMovement : MonoBehaviour
         if (respawnManager != null)
         {
             Debug.Log("Respawning player...");
+
             player.transform.position = respawnManager.respawnPoint.position;
+
             Debug.Log("Player respawned at: " + respawnManager.respawnPoint.position);
         }
         else

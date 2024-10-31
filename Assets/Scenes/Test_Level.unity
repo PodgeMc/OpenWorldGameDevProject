@@ -2522,10 +2522,9 @@ MonoBehaviour:
   runningSpeed: 10
   rotationSpeed: 2
   jumpForce: 5
-  climbingSpeed: 3
-  climbableLayer:
+  groundLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
 --- !u!136 &1211704894
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2947,7 +2946,7 @@ GameObject:
   - component: {fileID: 1606567027}
   - component: {fileID: 1606567026}
   - component: {fileID: 1606567025}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Plane
   m_TagString: Ground
   m_Icon: {fileID: 0}
