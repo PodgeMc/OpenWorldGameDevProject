@@ -2,183 +2,170 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    // Set how fast the player walks
+    // Basic movement and jump settings
+    [Header("Movement Settings")]
     [SerializeField] private float walkingSpeed = 5f;
-    // Set how fast the player runs
     [SerializeField] private float runningSpeed = 10f;
-    // Set how fast the player can turn
     [SerializeField] private float rotationSpeed = 2f;
-    // Set how high the player can jump
     [SerializeField] private float jumpForce = 5f;
-    // Set which objects are considered the "ground" 
-    [SerializeField] private LayerMask groundLayer;
 
-    // Store the player's Rigidbody (for movement)
-    private Rigidbody rb;
-    // Store the player's Animator (for animations)
-    private Animator animator;
+    // Wall jump settings
+    [Header("Wall Jump Settings")]
+    [SerializeField] private float wallJumpForce = 7f;
+    [SerializeField] private LayerMask wallLayer;  // Defines "walls" for jumping
 
-    // Check if the player is on the ground
-    private bool isGrounded = true;
+    // Ground detection settings (including roofs and tops of walls)
+    [SerializeField] private LayerMask groundLayer;  // Treat roof and wall tops as ground
+
+    private Rigidbody rb;  // For player movement
+    private Animator animator;  // For player animations
+
+    private bool isGrounded = true;  // True when on a surface
+    private bool isTouchingWall = false;  // True if touching a wall
+    private int jumpCount = 0;  // Tracks number of jumps
+    private int maxJumps = 2;  // Max jumps allowed (1 regular + 1 double jump)
 
     void Start()
     {
-        // Get the Rigidbody on the player
         rb = GetComponent<Rigidbody>();
-        // Make sure the player doesn’t tip over
         rb.freezeRotation = true;
+        animator = GetComponent<Animator>();
 
-        // Hide and lock the mouse cursor
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-
-        // Get the Animator for the player
-        animator = GetComponent<Animator>();
-        if (animator == null)
-        {
-            // Print an error if no Animator is found
-            Debug.LogError("Animator component not found on the player GameObject.");
-        }
-    }
-
-    void FixedUpdate()
-    {
-        // Handle the player’s movement
-        HandleMovement();
     }
 
     void Update()
     {
-        // Handle where the player looks (camera rotation)
-        HandleMouseLook();
-        // Check if the player wants to jump
-        Jump();
-        // Check if the player is touching the ground
-        CheckIfGrounded();
+        HandleMouseLook();  // Handle looking around with the mouse
+        CheckIfGrounded();  // Check if on a flat surface
+        HandleJump();  // Handle jumping (ground, double, and wall jumps)
     }
 
-    // Make the player walk or run
+    void FixedUpdate()
+    {
+        HandleMovement();  // Move the player based on input
+    }
+
     void HandleMovement()
     {
-        // Get the horizontal and vertical movement (from arrow keys or WASD)
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
 
-        // Set the movement direction
-        Vector3 movement = new Vector3(horizontal, 0f, vertical);
-
-        // Choose running or walking speed
+        Vector3 movement = new Vector3(horizontal, 0f, vertical).normalized;
         float targetSpeed = Input.GetKey(KeyCode.LeftShift) ? runningSpeed : walkingSpeed;
 
-        // Move the player based on speed and direction
         movement *= targetSpeed * Time.fixedDeltaTime;
         rb.MovePosition(transform.position + transform.TransformDirection(movement));
 
-        // Get the speed to update animations
         float speed = movement.magnitude;
-
-        // Tell the animator when the player is walking or running
         animator.SetBool("Walking", speed > 0.1f && speed <= walkingSpeed);
         animator.SetBool("Running", speed > walkingSpeed);
     }
 
-    // Make the player jump
-    void Jump()
+    // Check if the player is on a flat surface like the ground, roof, or wall top
+    void CheckIfGrounded()
     {
-        // Only jump if the player is on the ground and pressing Space
-        if (isGrounded && Input.GetKeyDown(KeyCode.Space))
+        // Raycast down to see if player is on ground or any flat surface in the groundLayer
+        isGrounded = Physics.Raycast(transform.position, Vector3.down, 1.1f, groundLayer);
+
+        // Reset jumps when on a flat surface
+        if (isGrounded)
         {
-            // Apply a force upward
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            // The player is no longer on the ground
-            isGrounded = false;
-            // Play the jump animation
-            animator.SetTrigger("Jump");
-            Debug.Log("Player Jumped");
+            jumpCount = 0;  // Reset jump count
         }
     }
 
-    // Check if the player is on the ground
-    void CheckIfGrounded()
+    // Handles jumping (ground, double, and wall jump)
+    void HandleJump()
     {
-        // Cast a ray downwards to see if the player is on the ground
-        isGrounded = Physics.Raycast(transform.position, Vector3.down, 1.1f, groundLayer);
+        // Regular jump or double jump
+        if (jumpCount < maxJumps && Input.GetKeyDown(KeyCode.Space))
+        {
+            PerformJump(Vector3.up * jumpForce);  // Jump straight up
+            jumpCount++;  // Increment jump count after each jump
+        }
+        // Wall jump when touching a wall
+        else if (isTouchingWall && Input.GetKeyDown(KeyCode.Space))
+        {
+            PerformWallJump();
+        }
+    }
+
+    // General jump function
+    void PerformJump(Vector3 jumpDirection)
+    {
+        rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);  // Reset y-velocity for consistent jump height
+        rb.AddForce(jumpDirection, ForceMode.Impulse);
+        animator.SetTrigger("Jump");
+        Debug.Log("Player Jumped");
+    }
+
+    // Wall jump function that pushes the player away from the wall
+    void PerformWallJump()
+    {
+        Vector3 wallJumpDirection = (Vector3.up + -transform.forward).normalized;
+        PerformJump(wallJumpDirection * wallJumpForce);
+        Debug.Log("Player performed a wall jump");
+
+        // Reset jump count so player can double jump after wall jump
+        jumpCount = 1;  // Set to 1 so they can perform one more jump in air
+    }
+
+    // Detects collisions with walls for wall-jumping
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = true;  // Set grounded when player lands
+        }
+        else if (collision.gameObject.CompareTag("Wall"))
+        {
+            isTouchingWall = true;  // Player is touching a wall
+        }
+    }
+
+    // Reset wall-touch status when leaving a wall
+    void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Wall"))
+        {
+            isTouchingWall = false;  // Player is no longer touching a wall
+        }
     }
 
     // Handle player looking around with the mouse
     void HandleMouseLook()
     {
-        // Rotate player horizontally based on mouse movement
         float mouseX = Input.GetAxis("Mouse X") * rotationSpeed;
         transform.Rotate(Vector3.up * mouseX);
 
-        // Rotate camera vertically based on mouse movement
         float mouseY = Input.GetAxis("Mouse Y") * rotationSpeed;
         Camera.main.transform.Rotate(Vector3.left * mouseY);
     }
 
-    // Check for collisions when the player hits something
-    void OnCollisionEnter(Collision collision)
-    {
-        // Check if the player landed on the ground
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            // Set the player as grounded (on the ground)
-            isGrounded = true;
-            Debug.Log("Player landed on ground.");
-        }
-
-        // Check if the player hit a wall and is pressing W to climb
-        if (collision.gameObject.CompareTag("Climbable") && Input.GetKey(KeyCode.W))
-        {
-            // Apply an upward force to climb the wall
-            Vector3 wallClimbForce = Vector3.up * jumpForce;
-            rb.AddForce(wallClimbForce, ForceMode.Impulse);
-            Debug.Log("Player is climbing the wall.");
-        }
-    }
-
-    // Keep checking if the player is still on the ground
-    void OnCollisionStay(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            isGrounded = true;
-        }
-    }
-
-    // Check if the player enters a trigger zone
+    // Trigger-based respawn functionality
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Respawn"))
         {
-            // Respawn the player if they enter a respawn zone
-            Debug.Log("Player entered respawn trigger.");
-            RespawnPlayer(gameObject);
+            RespawnPlayer();
         }
     }
 
-    // Move the player back to a respawn point
-    void RespawnPlayer(GameObject player)
+    // Respawn player at a specified point
+    void RespawnPlayer()
     {
-        // Find the respawn manager in the scene
         RespawnManager respawnManager = FindObjectOfType<RespawnManager>();
-
         if (respawnManager != null)
         {
-            // Print a message to show the player is respawning
             Debug.Log("Respawning player...");
-
-            // Move the player to the respawn point location
-            player.transform.position = respawnManager.respawnPoint.position;
-
-            // Show the new position in the console
+            transform.position = respawnManager.respawnPoint.position;
             Debug.Log("Player respawned at: " + respawnManager.respawnPoint.position);
         }
         else
         {
-            // Print an error if no respawn manager is found
-            Debug.LogError("RespawnManager not found in the scene. Cannot respawn player.");
+            Debug.LogError("RespawnManager not found in the scene.");
         }
     }
 }
