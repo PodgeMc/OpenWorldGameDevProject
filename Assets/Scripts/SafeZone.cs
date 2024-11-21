@@ -2,8 +2,7 @@ using UnityEngine;
 
 public class SafeZone : MonoBehaviour
 {
-    public bool isPlayerSafe = false; // Tracks if the player is in any safe zone
-    public Transform dropOffPoint;   // Location to place the dropped object (assign in Inspector)
+    public bool isPlayerSafe = false; // Tracks if the player is in a safe zone
 
     private void OnTriggerEnter(Collider other)
     {

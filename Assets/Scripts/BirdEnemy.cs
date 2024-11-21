@@ -2,109 +2,40 @@ using UnityEngine;
 
 public class BirdEnemy : MonoBehaviour
 {
-    public Transform player; // The player
-    public AudioClip eagleSound; //Eagle sound
-    private AudioSource audioSource;
-    private PathFollower pathFollower;
-    public float speed = 5f;
-    public float followDistance = 20f; // Maximum distance the bird will chase the player
-    private bool isChasing = false; // Tracks bird chasing
-    private SafeZone playerSafeZone; // Reference to the SafeZone
+    public int damageAmount = 20; // Damage dealt to the player
+    private bool hasDealtDamage = false; // Prevent multiple damage events
 
-    void Start()
+    public BirdSpawner spawner; // Reference to the spawner script
+
+    void OnTriggerEnter(Collider other)
     {
-        // Get the PathFollower component
-        pathFollower = GetComponent<PathFollower>();
-        if (pathFollower == null)
+        if (other.CompareTag("Player") && !hasDealtDamage)
         {
-            Debug.LogWarning("PathFollower script is not attached to the BirdEnemy GameObject!");
-        }
+            hasDealtDamage = true; // Ensure damage is dealt only once
+            PlayerManager playerManager = other.GetComponent<PlayerManager>();
 
-        // Ensure player reference is assigned
-        if (player == null)
-        {
-            Debug.LogError("Player reference is missing in BirdEnemy! Assign it in the Inspector.");
-        }
+            if (playerManager != null)
+            {
+                playerManager.TakeDamage(damageAmount); // Deal damage to the player
+            }
 
-        // Get the SafeZone component on the player
-        playerSafeZone = player.GetComponent<SafeZone>();
-        if (playerSafeZone == null)
-        {
-            Debug.LogError("SafeZone script is not attached to the player!");
-        }
-
-        // Set up AudioSource
-        audioSource = GetComponent<AudioSource>();
-        if (audioSource == null)
-        {
-            Debug.LogError("No AudioSource component found on BirdEnemy! Please add one.");
+            NotifySpawnerAndDestroy(); // Notify the spawner and destroy the enemy
         }
     }
 
-    void Update()
+    void NotifySpawnerAndDestroy()
     {
-        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
-
-        // Check if the player is in a safe zone and within follow distance
-        if (!playerSafeZone.isPlayerSafe && distanceToPlayer < followDistance)
+        if (spawner != null)
         {
-            if (!isChasing) // Trigger chase only if not already chasing
-            {
-                isChasing = true;
-                PlayEagleSound(); // Play the eagle sound
-                ChasePlayer();
-            }
+            Debug.Log("Notifying spawner to spawn a new bird...");
+            spawner.SpawnBird(); // Spawn a new bird
         }
         else
         {
-            if (isChasing) // Trigger patrol only if chasing was active
-            {
-                isChasing = false;
-                ResumePatrol();
-            }
+            Debug.LogWarning("Spawner reference is missing!");
         }
-    }
 
-    void PlayEagleSound()
-    {
-        if (audioSource != null && eagleSound != null)
-        {
-            audioSource.PlayOneShot(eagleSound); // Play the sound once
-            Debug.Log("Eagle sound played!");
-        }
-    }
-
-    void ChasePlayer()
-    {
-        if (pathFollower != null) pathFollower.enabled = false; // Disable path-following while chasing
-
-        Debug.Log("Bird is now chasing the player!");
-    }
-
-    void ResumePatrol()
-    {
-        if (pathFollower != null)
-        {
-            pathFollower.enabled = true; // Re-enable path-following
-            Debug.Log("Bird has resumed patrolling.");
-        }
-        else
-        {
-            Debug.LogWarning("Bird cannot resume patrol because PathFollower is not attached!");
-        }
-    }
-
-    void FixedUpdate()
-    {
-        if (isChasing)
-        {
-            // Chase the player
-            Vector3 direction = (player.position - transform.position).normalized;
-            transform.position += direction * speed * Time.fixedDeltaTime;
-
-            // Smoothly rotate to face the player
-            Quaternion targetRotation = Quaternion.LookRotation(direction);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 5f);
-        }
+        Debug.Log("Destroying bird...");
+        Destroy(gameObject); // Destroy the current bird
     }
 }
