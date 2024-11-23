@@ -10,37 +10,37 @@ public class PlayerManager : MonoBehaviour
 
     void Start()
     {
-        // Initialize player health
-        currentHealth = maxHealth;
-
-        // Update the health text at the start
-        UpdateHealthText();
+        currentHealth = maxHealth; // Set health to max at the start
+        UpdateHealthText(); // Update the health display
     }
 
+    // Reduces player's health by the specified amount
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
-        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth); // Ensure health stays within valid range
         UpdateHealthText();
 
         if (currentHealth <= 0)
         {
-            Die();
+            Die(); // Trigger death if health reaches zero
         }
     }
 
+    // Restores player's health by the specified amount
     public void Heal(int amount)
     {
         currentHealth += amount;
-        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth); // Ensure health stays within valid range
         UpdateHealthText();
     }
 
+    // Updates the health display in the UI
     private void UpdateHealthText()
     {
         if (healthText != null)
         {
-            healthText.text = "Health: " + currentHealth; // Update health text
+            healthText.text = "Health: " + currentHealth;
         }
         else
         {
@@ -48,10 +48,10 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
+    // Handles player's death and transitions to the Game Over screen
     private void Die()
     {
         SceneManager.LoadScene("GameOverScreen");
         Debug.Log("Player has died!");
-        // Add any death or respawn logic here
     }
 }

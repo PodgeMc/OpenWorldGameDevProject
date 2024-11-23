@@ -4,29 +4,29 @@ using UnityEngine.UI;
 
 public class CollectibleManager : MonoBehaviour
 {
-    public int collectibleCount = 0; // Total score
-    private bool isCarryingCollectible = false; // If I’m holding a collectible
-    private GameObject currentCollectible; // The collectible I’m carrying
-    public Text scoreText; // The score display
-    public GameObject collectiblePrefab; // The collectible prefab
-    public Transform[] spawnPoints; // Where collectibles spawn
-    private int currentSpawnIndex = 0; // Tracks the next spawn point
+    public int collectibleCount = 0;
+    private bool isCarryingCollectible = false;
+    private GameObject currentCollectible;
+    public Text scoreText;
+    public GameObject collectiblePrefab;
+    public Transform[] spawnPoints;
+    private int currentSpawnIndex = 0;
 
-    private List<GameObject> collectiblePool = new List<GameObject>(); // Pool of collectibles
+    private List<GameObject> collectiblePool = new List<GameObject>();
 
-    public BirdSpawner birdSpawner; // Tells the BirdSpawner when to spawn a bird
+    public BirdSpawner birdSpawner;
 
     void Start()
     {
-        // Create collectibles and add them to the pool
+        // Initialize the collectible pool
         foreach (Transform spawnPoint in spawnPoints)
         {
             GameObject collectible = Instantiate(collectiblePrefab, spawnPoint.position, Quaternion.identity);
-            collectible.SetActive(false); // Hide them at the start
+            collectible.SetActive(false);
             collectiblePool.Add(collectible);
         }
 
-        UpdateScoreText(); // Show the initial score
+        UpdateScoreText(); // Show initial score
         ActivateNextCollectible(); // Activate the first collectible
     }
 
@@ -42,16 +42,17 @@ public class CollectibleManager : MonoBehaviour
         }
     }
 
+    // Handles picking up a collectible
     void CollectItem(GameObject collectible)
     {
-        collectible.SetActive(false); // Hide the collected item
-        currentCollectible = collectible; // Save the collected item
-        collectibleCount++; // Increase the score
-        isCarryingCollectible = true; // Mark that I’m holding something
+        collectible.SetActive(false);
+        currentCollectible = collectible;
+        collectibleCount++;
+        isCarryingCollectible = true;
 
         UpdateScoreText();
 
-        // Tell the BirdSpawner if we need a new bird
+        // Notify BirdSpawner if necessary
         if (birdSpawner != null)
         {
             birdSpawner.CheckAndSpawnBird(collectibleCount);
@@ -60,15 +61,16 @@ public class CollectibleManager : MonoBehaviour
         Debug.Log("Total Collectibles Collected: " + collectibleCount);
     }
 
+    // Handles dropping the current collectible
     public void DropCollectible()
     {
         if (isCarryingCollectible && currentCollectible != null)
         {
-            currentCollectible.SetActive(false); // Hide the dropped collectible
-            currentCollectible = null; // Forget the dropped item
-            isCarryingCollectible = false; // Ready to pick up another
+            currentCollectible.SetActive(false);
+            currentCollectible = null;
+            isCarryingCollectible = false;
 
-            ActivateNextCollectible(); // Activate a new collectible
+            ActivateNextCollectible();
         }
         else
         {
@@ -76,16 +78,17 @@ public class CollectibleManager : MonoBehaviour
         }
     }
 
+    // Activates the next available collectible from the pool
     private void ActivateNextCollectible()
     {
         foreach (GameObject collectible in collectiblePool)
         {
-            if (!collectible.activeInHierarchy) // Find a hidden collectible
+            if (!collectible.activeInHierarchy)
             {
                 Transform spawnPoint = spawnPoints[currentSpawnIndex];
-                collectible.transform.position = spawnPoint.position; // Move it to the next spawn point
-                collectible.SetActive(true); // Show it
-                currentSpawnIndex = (currentSpawnIndex + 1) % spawnPoints.Length; // Cycle to the next spawn point
+                collectible.transform.position = spawnPoint.position;
+                collectible.SetActive(true);
+                currentSpawnIndex = (currentSpawnIndex + 1) % spawnPoints.Length;
                 Debug.Log("Activated a collectible at: " + spawnPoint.position);
                 return;
             }
@@ -94,11 +97,12 @@ public class CollectibleManager : MonoBehaviour
         Debug.LogWarning("No hidden collectibles left in the pool!");
     }
 
+    // Updates the score display in the UI
     private void UpdateScoreText()
     {
         if (scoreText != null)
         {
-            scoreText.text = $"Score: {collectibleCount}"; // Update the score display
+            scoreText.text = $"Score: {collectibleCount}";
         }
         else
         {
@@ -106,8 +110,9 @@ public class CollectibleManager : MonoBehaviour
         }
     }
 
+    // Returns whether the player is currently holding a collectible
     public bool IsCarryingCollectible()
     {
-        return isCarryingCollectible; // True if holding something
+        return isCarryingCollectible;
     }
 }

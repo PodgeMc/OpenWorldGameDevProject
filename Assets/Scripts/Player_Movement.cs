@@ -2,28 +2,21 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    // Basic movement and jump settings
-    [Header("Movement Settings")]
     [SerializeField] private float walkingSpeed = 5f;
     [SerializeField] private float runningSpeed = 10f;
     [SerializeField] private float rotationSpeed = 2f;
     [SerializeField] private float jumpForce = 5f;
-
-    // Wall jump settings
-    [Header("Wall Jump Settings")]
     [SerializeField] private float wallJumpForce = 7f;
-    [SerializeField] private LayerMask wallLayer;  // Defines "walls" for jumping
+    [SerializeField] private LayerMask wallLayer;
+    [SerializeField] private LayerMask groundLayer;
 
-    // Ground detection settings (including roofs and tops of walls)
-    [SerializeField] private LayerMask groundLayer;  // Treat roof and wall tops as ground
+    private Rigidbody rb;
+    private Animator animator;
 
-    private Rigidbody rb;  // For player movement
-    private Animator animator;  // For player animations
-
-    private bool isGrounded = true;  // True when on a surface
-    private bool isTouchingWall = false;  // True if touching a wall
-    private int jumpCount = 0;  // Tracks number of jumps
-    private int maxJumps = 2;  // Max jumps allowed (1 regular + 1 double jump)
+    private bool isGrounded = true;
+    private bool isTouchingWall = false;
+    private int jumpCount = 0;
+    private int maxJumps = 2;
 
     void Start()
     {
@@ -37,16 +30,17 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        HandleMouseLook();  // Handle looking around with the mouse
-        CheckIfGrounded();  // Check if on a flat surface
-        HandleJump();  // Handle jumping (ground, double, and wall jumps)
+        HandleMouseLook(); // Rotate player based on mouse input
+        CheckIfGrounded(); // Detect if the player is on the ground
+        HandleJump(); // Manage all jump types
     }
 
     void FixedUpdate()
     {
-        HandleMovement();  // Move the player based on input
+        HandleMovement(); // Manage movement based on input
     }
 
+    // Moves the player based on input and updates animations
     void HandleMovement()
     {
         float horizontal = Input.GetAxis("Horizontal");
@@ -63,78 +57,72 @@ public class PlayerMovement : MonoBehaviour
         animator.SetBool("Running", speed > walkingSpeed);
     }
 
-    // Check if the player is on a flat surface like the ground, roof, or wall top
+    // Checks if the player is grounded and resets jumps
     void CheckIfGrounded()
     {
-        // Raycast down to see if player is on ground or any flat surface in the groundLayer
         isGrounded = Physics.Raycast(transform.position, Vector3.down, 1.1f, groundLayer);
 
-        // Reset jumps when on a flat surface
         if (isGrounded)
         {
-            jumpCount = 0;  // Reset jump count
+            jumpCount = 0; // Allow jumping again
         }
     }
 
-    // Handles jumping (ground, double, and wall jump)
+    // Handles jump logic: regular, double, and wall jumps
     void HandleJump()
     {
-        // Regular jump or double jump
         if (jumpCount < maxJumps && Input.GetKeyDown(KeyCode.Space))
         {
-            PerformJump(Vector3.up * jumpForce);  // Jump straight up
-            jumpCount++;  // Increment jump count after each jump
+            PerformJump(Vector3.up * jumpForce);
+            jumpCount++;
         }
-        // Wall jump when touching a wall
         else if (isTouchingWall && Input.GetKeyDown(KeyCode.Space))
         {
             PerformWallJump();
         }
     }
 
-    // General jump function
+    // Executes a jump in the specified direction
     void PerformJump(Vector3 jumpDirection)
     {
-        rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);  // Reset y-velocity for consistent jump height
+        rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
         rb.AddForce(jumpDirection, ForceMode.Impulse);
         animator.SetTrigger("Jump");
         Debug.Log("Player Jumped");
     }
 
-    // Wall jump function that pushes the player away from the wall
+    // Executes a wall jump and resets jump count for air movement
     void PerformWallJump()
     {
         Vector3 wallJumpDirection = (Vector3.up + -transform.forward).normalized;
         PerformJump(wallJumpDirection * wallJumpForce);
+        jumpCount = 1; // Allow one more jump in air
         Debug.Log("Player performed a wall jump");
-
-        // Reset jump count so player can double jump after wall jump
-        jumpCount = 1;  // Set to 1 so they can perform one more jump in air
     }
 
-    // Detects collisions with walls for wall-jumping
+    // Detects collisions with ground and walls
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
-            isGrounded = true;  // Set grounded when player lands
+            isGrounded = true;
         }
         else if (collision.gameObject.CompareTag("Wall"))
         {
-            isTouchingWall = true;  // Player is touching a wall
+            isTouchingWall = true;
         }
     }
 
-    // Reset wall-touch status when leaving a wall
+    // Resets wall state when leaving a wall
     void OnCollisionExit(Collision collision)
     {
         if (collision.gameObject.CompareTag("Wall"))
         {
-            isTouchingWall = false;  // Player is no longer touching a wall
+            isTouchingWall = false;
         }
     }
 
-    // Handle player looking around with the mouse
+    // Handles player rotation based on mouse input
     void HandleMouseLook()
     {
         float mouseX = Input.GetAxis("Mouse X") * rotationSpeed;
@@ -144,7 +132,7 @@ public class PlayerMovement : MonoBehaviour
         Camera.main.transform.Rotate(Vector3.left * mouseY);
     }
 
-    // Trigger-based respawn functionality
+    // Triggers a respawn when entering a respawn zone
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Respawn"))
@@ -153,7 +141,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    // Respawn player at a specified point
+    // Moves player to the respawn point
     void RespawnPlayer()
     {
         RespawnManager respawnManager = FindObjectOfType<RespawnManager>();

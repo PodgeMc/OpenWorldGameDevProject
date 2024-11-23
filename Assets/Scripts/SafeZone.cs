@@ -2,20 +2,19 @@ using UnityEngine;
 
 public class SafeZone : MonoBehaviour
 {
-    public bool isPlayerSafe = false; // Tracks if the player is in a safe zone
+    public bool isPlayerSafe = false; // True if the player is in the safe zone
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player")) // Detect collision with the player
+        if (other.CompareTag("Player"))
         {
             isPlayerSafe = true;
             Debug.Log("Player entered the safe zone!");
 
-            // Check if the player is carrying a collectible
+            // Check if the player is carrying a collectible and drop it off
             CollectibleManager collectibleManager = other.GetComponent<CollectibleManager>();
             if (collectibleManager != null && collectibleManager.IsCarryingCollectible())
             {
-                // Drop off the collectible
                 collectibleManager.DropCollectible();
                 Debug.Log("Collectible dropped off at the safe zone!");
             }
@@ -24,7 +23,7 @@ public class SafeZone : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player")) // Detect exiting the safe zone
+        if (other.CompareTag("Player"))
         {
             isPlayerSafe = false;
             Debug.Log("Player exited the safe zone!");

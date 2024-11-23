@@ -13,22 +13,22 @@ public class PathFollower : MonoBehaviour
     {
         if (waypoints.Length == 0)
         {
-            Debug.LogWarning("No waypoints assigned to the PathFollower script.");
+            Debug.LogWarning("No waypoints assigned.");
             return;
         }
 
         MoveAlongPath();
     }
 
+    // Moves the object along the waypoints
     void MoveAlongPath()
     {
-        // Move towards the current waypoint
+        // Move toward the current waypoint
         transform.position = Vector3.MoveTowards(transform.position, waypoints[currentWaypointIndex].position, speed * Time.deltaTime);
 
-        // Check if the object has reached the current waypoint
+        // Switch to the next waypoint if close enough
         if (Vector3.Distance(transform.position, waypoints[currentWaypointIndex].position) < 0.1f)
         {
-            // Move to the next waypoint
             currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Length;
         }
     }
