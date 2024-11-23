@@ -4,10 +4,9 @@ using UnityEngine.UI;
 
 public class PlayerManager : MonoBehaviour
 {
-    public int maxHealth = 100; // Maximum health of the player
-    private int currentHealth; // Current health of the player
-
-    public Text healthText; // Reference to the UI Text component for health display
+    public int maxHealth = 100;
+    private int currentHealth;
+    public Text healthText;
 
     void Start()
     {
@@ -45,7 +44,7 @@ public class PlayerManager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("Health Text UI is not assigned!");
+            Debug.Log("Health Text UI is not assigned!");
         }
     }
 

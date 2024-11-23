@@ -2,71 +2,50 @@ using UnityEngine;
 
 public class BirdEnemy : MonoBehaviour
 {
-    public int damageAmount = 20; // Damage dealt to the player
-    public float chaseSpeed = 5f; // Speed while chasing the player
-    public float attackRange = 2f; // Range to deal damage to the player
-    public float followDistance = 20f; // Maximum distance to start chasing
-    private bool isChasing = false; // Tracks if the bird is chasing the player
-    private bool hasDealtDamage = false; // Prevents multiple damage events
-    public Transform player; // Reference to the player
-    private PathFollower pathFollower; // Reference to the PathFollower script
-    public AudioClip chaseSound; // Audio clip for when the bird starts chasing
-    private AudioSource audioSource; // AudioSource component for playing sounds
-    private SafeZone playerSafeZone; // Reference to the player's SafeZone status
+    public int damageAmount = 20;
+    public float chaseSpeed = 8f;
+    public float patrolSpeed = 2f;
+    public float flyHeight = 5f;
+    public float attackRange = 2f;
+    public float followDistance = 20f;
+    public bool idle = true;
+    public bool fly = false;
+    private bool hasDealtDamage = false;
+
+    public Transform player;
+    public AudioClip chaseSound;
+    private SafeZone playerSafeZone;
+    private Animator animator;
+    private AudioSource audioSource;
+    private PathFollower pathFollower;
 
     void Start()
     {
-        // Get the PathFollower component
+        // Get required components
         pathFollower = GetComponent<PathFollower>();
-        if (pathFollower == null)
-        {
-            Debug.LogWarning("PathFollower script is not attached to BirdEnemy.");
-        }
-
-        // Get the AudioSource component
         audioSource = GetComponent<AudioSource>();
-        if (audioSource == null)
-        {
-            Debug.LogWarning("AudioSource component is missing on BirdEnemy.");
-        }
-
-        // Get the SafeZone component from the player
         playerSafeZone = player.GetComponent<SafeZone>();
-        if (playerSafeZone == null)
-        {
-            Debug.LogWarning("SafeZone script is not attached to the player.");
-        }
+        animator = GetComponent<Animator>();
     }
 
     void Update()
     {
         if (player == null)
         {
-            Debug.LogError("Player reference is missing on BirdEnemy!");
+            Debug.LogError("Player reference missing!");
             return;
         }
 
-        // Calculate the distance to the player
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
-        // Check if the player is in a safe zone or within follow distance
+        // Start chasing if the player is within range and not in a safe zone
         if (!playerSafeZone.isPlayerSafe && distanceToPlayer <= followDistance)
         {
-            if (!isChasing) // Start chasing only if not already chasing
-            {
-                isChasing = true;
-
-                if (pathFollower != null)
-                {
-                    pathFollower.enabled = false; // Disable patrolling
-                }
-
-                PlayChaseSound(); // Play chase sound
-            }
-
+            idle = false;
+            fly = true;
+            if (pathFollower != null) pathFollower.enabled = false;
             ChasePlayer();
 
-            // Check if the bird is close enough to attack
             if (distanceToPlayer <= attackRange && !hasDealtDamage)
             {
                 DealDamageToPlayer();
@@ -74,64 +53,76 @@ public class BirdEnemy : MonoBehaviour
         }
         else
         {
-            // Resume patrolling
-            isChasing = false;
-
-            if (pathFollower != null)
-            {
-                pathFollower.enabled = true; // Enable patrolling
-            }
+            // Switch back to patrolling when the player is out of range
+            idle = true;
+            fly = false;
+            if (pathFollower != null) pathFollower.enabled = true;
+            Patrol();
         }
+
+        UpdateAnimations();
     }
 
     void ChasePlayer()
     {
-        // Calculate the direction toward the player
+        // Move toward the player and maintain flying height
         Vector3 direction = (player.position - transform.position).normalized;
-
-        // Move the bird toward the player at chase speed
         transform.position += direction * chaseSpeed * Time.deltaTime;
+        transform.position = new Vector3(transform.position.x, flyHeight, transform.position.z);
 
-        // Smoothly rotate the bird to face the player
+        // Rotate to face the player
         Quaternion targetRotation = Quaternion.LookRotation(direction);
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
 
-        Debug.Log("Bird is chasing the player...");
+        // Play chase sound
+        if (audioSource != null && !audioSource.isPlaying)
+        {
+            audioSource.PlayOneShot(chaseSound);
+        }
+    }
+
+    void Patrol()
+    {
+        // Simple patrolling behavior
+        if (pathFollower == null)
+        {
+            transform.Rotate(0f, patrolSpeed * Time.deltaTime, 0f);
+        }
     }
 
     void DealDamageToPlayer()
     {
-        hasDealtDamage = true; // Mark damage as dealt
-        PlayerManager playerManager = player.GetComponent<PlayerManager>();
+        hasDealtDamage = true;
 
+        // Damage the player
+        PlayerManager playerManager = player.GetComponent<PlayerManager>();
         if (playerManager != null)
         {
-            playerManager.TakeDamage(damageAmount); // Inflict damage
-            Debug.Log($"Bird dealt {damageAmount} damage to the player.");
+            playerManager.TakeDamage(damageAmount);
+            Debug.Log($"Bird dealt {damageAmount} damage.");
         }
 
-        // Deactivate the bird after dealing damage
-        DeactivateBird();
+        ResetBird();
     }
 
-    void DeactivateBird()
+    void ResetBird()
     {
-        Debug.Log("Deactivating bird...");
-        hasDealtDamage = false; // Reset damage state for reuse
-        isChasing = false; // Reset chasing state
-        gameObject.SetActive(false); // Deactivate this bird
+        // Reset bird to idle state
+        hasDealtDamage = false;
+        idle = true;
+        fly = false;
+        if (pathFollower != null)
+        {
+            pathFollower.enabled = true;
+        }
     }
 
-    private void PlayChaseSound()
+    void UpdateAnimations()
     {
-        if (audioSource != null && chaseSound != null)
-        {
-            audioSource.PlayOneShot(chaseSound); // Play the chase sound
-            Debug.Log("Chase sound played!");
-        }
-        else
-        {
-            Debug.LogWarning("AudioSource or chaseSound is missing.");
-        }
+        if (animator == null) return;
+
+        // Update animation states
+        animator.SetBool("Fly", fly);
+        animator.SetBool("Idle", idle);
     }
 }
