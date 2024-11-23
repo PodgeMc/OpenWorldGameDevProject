@@ -8,14 +8,10 @@ public class BirdEnemy : MonoBehaviour
     public float followDistance = 20f; // Maximum distance to start chasing
     private bool isChasing = false; // Tracks if the bird is chasing the player
     private bool hasDealtDamage = false; // Prevents multiple damage events
-
     public Transform player; // Reference to the player
-    public BirdSpawner spawner; // Reference to the spawner script
     private PathFollower pathFollower; // Reference to the PathFollower script
-
     public AudioClip chaseSound; // Audio clip for when the bird starts chasing
     private AudioSource audioSource; // AudioSource component for playing sounds
-
     private SafeZone playerSafeZone; // Reference to the player's SafeZone status
 
     void Start()
@@ -114,43 +110,16 @@ public class BirdEnemy : MonoBehaviour
             Debug.Log($"Bird dealt {damageAmount} damage to the player.");
         }
 
-        // Notify the spawner and deactivate the bird
-        NotifySpawnerAndDeactivate();
+        // Deactivate the bird after dealing damage
+        DeactivateBird();
     }
 
-    void NotifySpawnerAndDeactivate()
+    void DeactivateBird()
     {
-        if (spawner != null)
-        {
-            Debug.Log("Notifying spawner to spawn a new bird...");
-            spawner.SpawnBird(); // Trigger the spawner to create a new bird
-        }
-        else
-        {
-            Debug.LogWarning("Spawner reference is missing!");
-        }
-
         Debug.Log("Deactivating bird...");
         hasDealtDamage = false; // Reset damage state for reuse
         isChasing = false; // Reset chasing state
         gameObject.SetActive(false); // Deactivate this bird
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Player") && !hasDealtDamage)
-        {
-            DealDamageToPlayer();
-        }
-    }
-
-    private void OnDisable()
-    {
-        // Reset bird state when deactivated if necessary
-        if (pathFollower != null)
-        {
-            pathFollower.enabled = true; // Ensure patrolling is enabled for reuse
-        }
     }
 
     private void PlayChaseSound()

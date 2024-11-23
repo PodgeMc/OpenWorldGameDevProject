@@ -5,9 +5,11 @@ public class BirdSpawner : MonoBehaviour
 {
     public GameObject birdPrefab; // The bird prefab to spawn
     public Transform[] spawnPoints; // Spawn points for birds
-    public int poolSize = 10; // Number of birds to pre-instantiate
+    public int poolSize = 20; // Number of birds to pre-instantiate
 
     private List<GameObject> birdPool = new List<GameObject>(); // The bird object pool
+    private int lastScoreChecked = 0; // Tracks the last score milestone
+    private int birdsToSpawn = 1; // Number of birds to spawn at each milestone
 
     void Start()
     {
@@ -18,20 +20,27 @@ public class BirdSpawner : MonoBehaviour
             bird.SetActive(false); // Deactivate initially
             birdPool.Add(bird); // Add to the pool
         }
-
-        // Spawn one bird at the start of the game
-        SpawnBird();
     }
 
     public void CheckAndSpawnBird(int score)
     {
         Debug.Log($"CheckAndSpawnBird called with score: {score}");
 
-        // Spawn a bird when the score is a multiple of 5
-        if (score % 5 == 0)
+        // Only spawn birds if the score is a multiple of 5 and hasn't already triggered
+        if (score % 5 == 0 && score > lastScoreChecked)
         {
-            Debug.Log("Spawning a bird because the score is a multiple of 5.");
-            SpawnBird();
+            lastScoreChecked = score; // Update the last checked score
+
+            // Spawn multiple birds based on the current milestone
+            for (int i = 0; i < birdsToSpawn; i++)
+            {
+                SpawnBird();
+            }
+
+            // Increment the number of birds to spawn for the next milestone
+            birdsToSpawn++;
+
+            Debug.Log($"Spawned {birdsToSpawn - 1} birds because the score reached a new milestone.");
         }
     }
 
