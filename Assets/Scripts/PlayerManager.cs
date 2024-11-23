@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PlayerManager : MonoBehaviour
@@ -50,6 +51,7 @@ public class PlayerManager : MonoBehaviour
 
     private void Die()
     {
+        SceneManager.LoadScene("GameOverScreen");
         Debug.Log("Player has died!");
         // Add any death or respawn logic here
     }
